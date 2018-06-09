@@ -1,5 +1,5 @@
-const main = require('../main/main.js');
-var loadAllItem=require('../main/datbase.js');
+const main = require('../main/js/main.js');
+var loadAllItem=require('../main/js/datbase.js');
 
 describe('pos', function () {
     var allItems;

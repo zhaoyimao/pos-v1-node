@@ -1,10 +1,10 @@
-var Items=require('./datbase.js');
-module.exports= function main(input) {
+document.write("<script type='text/javascript' src='../main/js/datbase.js'></script>");
+function main(input) {
     let input_items=printInventory(input);
     let items_message=getItemsMessage(input_items);
     let promotions=promotionsItems(items_message);
     Items_list(items_message,promotions);
-};
+}
 function printInventory(inputs){
     let input_items=[];
     let input_items_list=[];
