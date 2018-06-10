@@ -1,5 +1,4 @@
 document.write("<script type='text/javascript' src='../main/js/datbase.js'></script>");
-document.write("<script type='text/javascript' src='../main/js/main.js'></script>");
 window.onload=function(){//显示所有商品信息
     let allItem=Message();
    for(let i=0;i<allItem.length;i++){
@@ -82,18 +81,10 @@ function get_car_goods(name){//获取购物车里面的信息
         $(this).children('td').each(function(j){
             object.push($(this).text());
         });
-        // let good_object={};
-        // good_object.name=object[0];
-        // good_object.unit=object[1];
-        // good_object.price=object[2];
-        // good_object.charge=object[3];
-        // good_object.count=object[4];
-        // result.push(good_object);
         if(object[0]==name){
             count=object[4];
         }
     });
-    //alert(count);
     return count;
 }
 
@@ -119,3 +110,92 @@ function Input(){
     })
 }
 
+function lookUpCar(){//查看购物车
+    $("#look_up_car").click(function(){
+        $("#shop").hide();
+        $("#car").show();
+    });
+}
+function Buy(){//购买
+    $("#buy").off().on("click",'#buy_button',function(){
+    let all_thing=get_all_thing_in_car();
+    let promotions=getPromotions(all_thing);
+   let str= print_list(all_thing,promotions);
+   $("#buy_list").html(str);
+    });
+}
+function get_all_thing_in_car(){//获取购物车中的所有的商品
+    let result=[];
+    $("#car_good_list tr").each(function(i){
+        let object=[];
+        $(this).children('td').each(function(j){
+            object.push($(this).text());
+        });
+         let good_object={};
+         good_object.name=object[0];
+         good_object.unit=object[1];
+         let price_object=object[2].split('元');
+         good_object.price=Number(price_object[0]);
+         good_object.charge=object[3];
+         good_object.count=parseInt(object[4]);
+         result.push(good_object);
+    });
+    return result;
+}
+function print_list(items_message,promotions){//打印购物清单
+    var str='<p>***<没钱赚商店>购物清单***</p>';
+
+    for(let i in items_message){
+        items_message[i].count2=items_message[i].count;
+    }
+
+    for(let i in promotions){
+        for(let j in items_message){
+            if(items_message[j].name == promotions[i].name){
+                items_message[j].count2=items_message[j].count2-1;
+            }
+        }
+    }
+    
+    
+    for(let i in items_message){
+        str=str+'<p>名称：'+items_message[i].name+'，数量：'+items_message[i].count+items_message[i].unit+
+        '，单价：'+items_message[i].price+'(元)，小计：'+(items_message[i].count2 * items_message[i].price).toFixed(2)
+        +'(元)</p>';
+    }
+    
+    str=str+ '<p>----------------------</p>'+'<p>挥泪赠送商品：</p>' ;
+    for(let i in promotions){
+        str=str+'<p>名称：'+promotions[i].name+'，数量：'+promotions[i].count+promotions[i].unit+'</p>';
+    }
+    str=str+'<p>----------------------</p>';
+    
+    let price=items_message.reduce(function(value,element){
+        return value+element.count2*element.price;
+    },0).toFixed(2);
+    let promotions_price=promotions.reduce(function(value,element){
+        return value+element.count*element.price;
+    },0).toFixed(2);
+    str=str+"<p>总计："+price+'(元)\n节省：' +promotions_price+'(元)</p>' +
+    '<p>**********************</p>';
+    return str;
+}
+
+function getPromotions(all_thing){//获取优惠的商品
+    let result=[];
+    all_thing.filter(element=>{
+        if(element.charge=='买二赠一'){
+            if(element.count>1){
+            let object={};
+            object.name=element.name;
+            object.barcode=element.barcode;
+            object.count=1;
+            object.unit=element.unit;
+            object.charge=element.charge;
+            object.price=element.price;
+            return result.push(object);
+        }
+    }
+    });
+    return result;
+}

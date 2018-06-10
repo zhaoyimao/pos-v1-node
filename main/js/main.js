@@ -51,7 +51,7 @@ function getItemsMessage(input_item){
 }
 
 function promotionsItems(items_message){
-    let load_promotions=Items.loadPromotions();
+    let load_promotions=loadPromotions();
     let promotions_item=[];
     for(let i in load_promotions){
         if(load_promotions[i].type=='BUY_TWO_GET_ONE_FREE'){

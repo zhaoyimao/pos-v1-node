@@ -41,3 +41,21 @@ th,td{
     height: 20px;
     text-align: center;
 }
+
+#look_up{
+    text-align: center;
+}
+#look_up_car{
+    width: 100px;
+    height: 40px;
+    text-align: center;
+}
+#car{
+    display: none;
+}
+#buy_list{
+    text-align: center;
+}
+#buy{
+    text-align: center;
+}
