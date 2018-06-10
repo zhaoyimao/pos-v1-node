@@ -199,3 +199,10 @@ function getPromotions(all_thing){//获取优惠的商品
     });
     return result;
 }
+
+function returntoshop(){
+    $("#return").click(function(){
+        $("#car").hide();
+        $("#shop").show();
+    })
+}

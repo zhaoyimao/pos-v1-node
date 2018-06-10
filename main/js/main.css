@@ -59,3 +59,9 @@ th,td{
 #buy{
     text-align: center;
 }
+#buy button{
+    height: 40px;
+    width: 80px;
+    text-align: center;
+    margin: 0;
+}
